@@ -14,16 +14,22 @@ gem 'jquery-rails'
 
 gem 'unicorn'
 
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'ee_cummings'
+
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
 
 group :development do
   gem 'foreman'
   gem 'pry-rails'
+  gem 'dotenv'
 end
 
 group :test do
   gem 'rspec-rails'
   gem 'database_cleaner'
   gem 'zonebie'
+  gem 'poltergeist'
 end

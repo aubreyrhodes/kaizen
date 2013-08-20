@@ -3,13 +3,15 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
-require 'database_helper'
-require 'zonebie'
+require 'capybara/rails'
+require 'pry'
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 Zonebie.set_random_timezone
+Capybara.javascript_driver = :poltergeist
+OmniAuth.config.test_mode = true
 
 RSpec.configure do |config|
   config.use_transactional_fixtures = true
@@ -32,6 +34,18 @@ RSpec.configure do |config|
     config.after(:each) do
       DatabaseCleaner.clean
     end
+
+    config.include RSpec::Rails::RequestExampleGroup, type: :request, example_group: {
+      file_path: /spec\/acceptance\/.*_spec/
+    }
+
+    config.include Capybara::DSL, example_group: {
+      file_path: /spec\/acceptance\/.*_spec/
+    }
+
+    config.include Capybara::RSpecMatchers, example_group: {
+      file_path: /spec\/acceptance\/.*_spec/
+    }
 
   end
 end
