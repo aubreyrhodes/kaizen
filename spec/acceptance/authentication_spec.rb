@@ -4,11 +4,15 @@ describe 'authentication' do
   context 'the user has a valid github account' do
     before do
       setup_mock_github_auth
+      visit '/'
     end
 
     it 'allows the user to visit the root path' do
-      visit '/'
       expect(page.status_code).to eq(200)
+    end
+
+    it 'creates a new user if one does not exist' do
+      expect(User.count).to eq(1)
     end
   end
 

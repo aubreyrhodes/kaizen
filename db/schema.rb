@@ -11,9 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20130820160021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "users", force: true do |t|
+    t.string "name"
+    t.string "github_login"
+    t.string "email"
+    t.string "image"
+    t.string "oauth_token"
+  end
+
+  add_index "users", ["github_login"], name: "index_users_on_github_login", using: :btree
 
 end
